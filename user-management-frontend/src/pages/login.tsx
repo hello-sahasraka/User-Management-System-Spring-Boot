@@ -4,10 +4,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   name: string;
-  role: string;
+  roles: string;
+  image?: string;
 }
 
 interface LoginResponse {
@@ -21,6 +23,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_BACKEND_URL as string;
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -33,7 +36,13 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await axios.post<LoginResponse>(`${baseURL}/api/v1/login`, { name, password });
-      console.log(response);
+      
+      if (response.data.user.roles == "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/user");
+      }
+      
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       toast.success(response.data.message || "Login successful!");
@@ -93,7 +102,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="bg-[#FF464D] px-8 py-2 rounded-full hover:bg-[#fd708f] transition text-gray-50 cursor-pointer"
+              className="bg-[#FF464D] px-8 py-2 rounded-full hover:bg-[#fd708f] transition text-gray-50 cursor-pointer font-medium"
             >
               Login
             </button>
