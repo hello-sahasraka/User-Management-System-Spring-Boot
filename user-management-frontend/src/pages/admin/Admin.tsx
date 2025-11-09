@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import AddUser from "../../components/AddUser";
 import Loading from "../../components/Loading";
+import { Tooltip } from "@mui/material";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL as string;
 
@@ -71,14 +72,16 @@ const Admin = () => {
             onDelete={(id) => console.log('Delete ID:', id)}
           />
           <div>
-            <button
-              className="fixed bottom-8 right-8 bg-[#FF4169] hover:bg-[#FF464D] hover:scale-110
+            <Tooltip title="Add User" placement="left-end">
+              <button
+                className="h-[60px] w-[60px] fixed bottom-8 right-8 bg-[#FF4169] hover:bg-[#FF464D] hover:scale-110
           text-white p-4 rounded-full shadow-lg flex items-center justify-center 
-          transition duration-300 cursor-pointer"
-              onClick={() => setOpenAddModal(true)}
-            >
-              <ControlPointOutlinedIcon fontSize="large" />
-            </button>
+          transition duration-300 cursor-pointer z-100"
+                onClick={() => setOpenAddModal(true)}
+              >
+                <ControlPointOutlinedIcon fontSize="large" />
+              </button>
+            </Tooltip>
           </div>
 
           <AddUser

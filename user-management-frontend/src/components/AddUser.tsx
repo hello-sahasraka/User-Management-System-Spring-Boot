@@ -8,6 +8,10 @@ import {
     Stack,
     useMediaQuery,
     useTheme,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FileUploads from './buttons/FileUploads';
@@ -40,7 +44,7 @@ const AddUser = ({ open, onClose, onSubmit }: AddUserModalProps) => {
     };
 
     return (
-        <Dialog 
+        <Dialog
             open={open}
             onClose={onClose}
             fullWidth
@@ -71,7 +75,7 @@ const AddUser = ({ open, onClose, onSubmit }: AddUserModalProps) => {
                         label="Full Name"
                         {...register('name')}
                         fullWidth
-                        size={isMobile ? "small" : "medium"}  // Smaller fields on mobile
+                        size={isMobile ? "small" : "medium"}
                     />
                     <TextField
                         label="Email"
@@ -81,11 +85,19 @@ const AddUser = ({ open, onClose, onSubmit }: AddUserModalProps) => {
                         size={isMobile ? "small" : "medium"}
                     />
                     <TextField
+                        select
                         label="Role"
-                        {...register('role')}
                         fullWidth
                         size={isMobile ? "small" : "medium"}
-                    />
+                        defaultValue=""          
+                        {...register("role")}
+                    >
+                        <MenuItem value="">Select Role</MenuItem>
+                        <MenuItem value="ADMIN">Admin</MenuItem>
+                        <MenuItem value="USER">User</MenuItem>
+                    </TextField>
+
+
                     <TextField
                         label="Address"
                         {...register('address')}
@@ -114,8 +126,8 @@ const AddUser = ({ open, onClose, onSubmit }: AddUserModalProps) => {
                     pb: isMobile ? 1 : 2,
                 }}
             >
-                <Button 
-                    onClick={onClose} 
+                <Button
+                    onClick={onClose}
                     color="secondary"
                     fullWidth={isMobile}   // Full width on small screens
                 >
