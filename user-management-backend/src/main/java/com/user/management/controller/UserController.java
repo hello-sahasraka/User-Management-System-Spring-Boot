@@ -2,6 +2,7 @@ package com.user.management.controller;
 
 import com.user.management.dto.UserDTO;
 import com.user.management.repo.UserRepo;
+import com.user.management.service.EmailService;
 import com.user.management.service.UserService;
 import com.user.management.utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/getusers")
     public List<UserDTO> getUser() {
@@ -38,6 +42,7 @@ public class UserController {
 
         String password = PasswordGenerator.generateSecurePassword(12);
         userDTO.setPassword(password);
+        emailService.sendSimpleMail(userDTO.getEmail(), userDTO.getPassword());
 
         return userService.createUser(userDTO);
     }
