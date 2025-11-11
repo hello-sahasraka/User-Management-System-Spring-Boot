@@ -8,6 +8,7 @@ import AddUser from "../../components/AddUser";
 import Loading from "../../components/Loading";
 import { Tooltip } from "@mui/material";
 import EditUser from "../../components/EditUser";
+import ConfirmationBox from "../../components/ConfirmationBox";
 
 const baseURL = import.meta.env.VITE_BACKEND_URL as string;
 
@@ -38,8 +39,10 @@ const Admin = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Person | null>(null);
   const [state, setState] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,7 +142,10 @@ const Admin = () => {
           <AdminTable
             data={userList}
             onEdit={(person) => handleEditUser(person)}
-            onDelete={(id) => handleDeleteUser(id)}
+            onDelete={(id) => {
+              setSelectedUserId(id);
+              setOpenDeleteModal(true);
+            }}
           />
           <div>
             <Tooltip title="Add User" placement="left-end">
@@ -164,6 +170,17 @@ const Admin = () => {
             onClose={() => setOpenEditModal(false)}
             onSubmit={handleUpdateUser}
             oldData={selectedUser}
+          />
+          <ConfirmationBox
+            openDeleteModal={openDeleteModal}
+            setOpenDeleteModal={setOpenDeleteModal}
+            handleDeleteUser={() => {
+              if (selectedUserId !== null) {
+                handleDeleteUser(selectedUserId);
+              } else {
+                toast.error("No user selected for deletion.");
+              }
+            }}
           />
         </div>
       )}
