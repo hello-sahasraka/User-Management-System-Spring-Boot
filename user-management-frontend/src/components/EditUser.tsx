@@ -158,7 +158,7 @@ const EditUser = ({ open, onClose, onSubmit, oldData }: EditUserModalProps) => {
                 <Button
                     onClick={onClose}
                     color="secondary"
-                    fullWidth={isMobile}   // Full width on small screens
+                    fullWidth={isMobile}   
                 >
                     Cancel
                 </Button>

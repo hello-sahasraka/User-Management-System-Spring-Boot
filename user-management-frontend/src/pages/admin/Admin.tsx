@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import AdminTable from "../../components/AdminTable"
 import NavBar from "../../components/NavBar"
 import axios from "axios";
@@ -117,11 +117,23 @@ const Admin = () => {
   }
 
   const handleUpdateUser = async (data: Person) => {
-    console.log(data);
+    const {image, ...userData} = data;
+
+    const formData = new FormData();
+
+    formData.append(
+      "user", new Blob([JSON.stringify(userData)], { type: "application/json" })
+    );
+
+    if (image) {
+      formData.append("image", image);
+    }
+
     try {
-      await axios.put(`${baseURL}/api/v1/admin/updateuser`, data, {
+      await axios.put(`${baseURL}/api/v1/admin/updateuser`, formData, {
         headers: {
           "Authorization": "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "multipart/form-data"
         },
       });
       toast.success("User updated successfully!");
