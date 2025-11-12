@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/logo.png";
 
 interface User {
   name: string;
@@ -109,6 +110,7 @@ const Login = () => {
           </form>
         </div>
         <div className="w-1/2 bg-gradient-to-r from-[#FF464D] to-[#FF4169] text-gray-50 flex flex-col justify-center items-center p-6 rounded-r text-center">
+          <img src={Logo} alt="logo" className="h-[75px] mb-4"/>
           <h2 className="text-3xl font-bold mb-4 drop-shadow-md">Welcome Back!</h2>
           <p className="mb-4 drop-shadow-md">Please enter your credentials to access your account</p>
         </div>
