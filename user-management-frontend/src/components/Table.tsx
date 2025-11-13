@@ -4,6 +4,8 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
 } from 'material-react-table';
+import { Stack } from '@mui/material';
+import userIcon from "../assets/user_icon.png";
 
 interface Person {
   id: number;
@@ -24,6 +26,22 @@ const Table = ({ data }: { data: Person[] }) => {
         accessorKey: 'name',
         header: 'Full Name',
         size: 150,
+        Cell({ row }) {
+          const image = row.original.image;
+          const name = row.original.name;
+
+          return (
+            <Stack direction="row" spacing={1} className='flex items-center'>
+              <img
+                src={image || userIcon}
+                alt={name}
+                className="h-8 sm:h-10 aspect-square rounded-full object-cover border-2 border-gray-400
+                                "
+              />
+              <h1>{name}</h1>
+            </Stack>
+          )
+        }
       },
       {
         accessorKey: 'email',
